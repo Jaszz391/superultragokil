@@ -6,45 +6,51 @@
 <title>Hacker Wallpaper</title>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: monospace;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: monospace;
+}
 
-    body {
-        overflow: hidden;
-    }
+body {
+    overflow: hidden;
+}
 
-    /* Background wallpaper */
-    .bg {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        background: url('https://files.catbox.moe/yourimage.jpg') no-repeat center center/cover;
-        z-index: -1;
-        filter: brightness(0.4);
-    }
+/* Background */
+.bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url('https://files.catbox.moe/yourimage.jpg') no-repeat center center/cover;
+    z-index: -2;
+    filter: brightness(0.4);
+}
 
-    /* Canvas matrix */
-    canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-    }
+/* Matrix canvas */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
 
-    /* Text tengah */
-    .center-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #00ff00;
-        font-size: 30px;
-        text-shadow: 0 0 10px #00ff00;
-        letter-spacing: 3px;
-    }
+/* Text tengah */
+.center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #00ff00;
+    font-size: 30px;
+    text-shadow: 0 0 10px #00ff00;
+    letter-spacing: 3px;
+}
+
+/* Hide iframe */
+.music {
+    display: none;
+}
 </style>
 </head>
 
@@ -57,6 +63,12 @@
     ACCESS GRANTED
 </div>
 
+<!-- 🎧 BACKSOUND YOUTUBE -->
+<iframe class="music"
+src="https://youtu.be/JOXUEZloyZE?si=C36wDrqxGcZ98rM9"
+allow="autoplay">
+</iframe>
+
 <script>
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
@@ -64,14 +76,12 @@ const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-const letters = "010101010101010101010101010101";
+const letters = "0101010101010101010101";
 const fontSize = 16;
 const columns = canvas.width / fontSize;
 
 const drops = [];
-for (let x = 0; x < columns; x++) {
-    drops[x] = 1;
-}
+for (let x = 0; x < columns; x++) drops[x] = 1;
 
 function draw() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
@@ -81,7 +91,7 @@ function draw() {
     ctx.font = fontSize + "px monospace";
 
     for (let i = 0; i < drops.length; i++) {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        const text = letters[Math.floor(Math.random() * letters.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
@@ -94,7 +104,6 @@ function draw() {
 
 setInterval(draw, 33);
 
-// Resize fix
 window.addEventListener("resize", () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
